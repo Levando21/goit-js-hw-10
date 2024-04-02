@@ -95,6 +95,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: 20px;
+  gap: 24px;
 }
 
 .field {
@@ -105,7 +106,12 @@
   font-weight: 500;
   font-size: 48px;
 }
-
+.label {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+}
 #calendar-container {
   width: 300px;
   border-radius: 50px;
