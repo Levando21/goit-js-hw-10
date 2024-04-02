@@ -5,7 +5,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 const myInp = document.getElementById('datetime-picker');
 myInp.classList.add('time-changer');
 myInp.style.width = '200px';
-myInp.style.height = '30px';
+myInp.style.height = '20px';
 myInp.style.borderRadius = '5px';
 
 const strBtn = document.querySelector('button[data-start]');
