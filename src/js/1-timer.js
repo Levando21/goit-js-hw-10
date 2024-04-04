@@ -39,7 +39,6 @@ myInp.addEventListener('click', () => {
     appendTo: calendarContainer,
   };
 
-  // Initialize Flatpickr with the specified options
   flatpickr(myInp, options);
 });
 
