@@ -1,5 +1,4 @@
 import flatpickr from 'flatpickr';
-
 import 'flatpickr/dist/flatpickr.min.css';
 
 const myInp = document.getElementById('datetime-picker');
@@ -13,18 +12,14 @@ console.log(strBtn);
 
 let intervalid = 0;
 
-strBtn.addEventListener(
-  'click',
-  () => {
-    if (!intervalid) {
-      strBtn.disabled = true;
-      intervalid = setInterval(() => {
-        console.log(`interval , ${intervalid}`);
-      }, 1000);
-    }
-  },
-  1000
-);
+strBtn.addEventListener('click', () => {
+  if (!intervalid) {
+    strBtn.disabled = true;
+    intervalid = setInterval(() => {
+      console.log(`interval , ${intervalid}`);
+    }, 1000);
+  }
+});
 
 myInp.addEventListener('click', () => {
   const calendarContainer = document.getElementById('calendar-container');
@@ -63,4 +58,4 @@ function convertMs(ms) {
 
 console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
 console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+console.log(convertMs(24140000)); // {days: 0, hours: 6, minutes: 42, seconds: 20}

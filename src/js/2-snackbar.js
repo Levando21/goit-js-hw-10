@@ -1,3 +1,5 @@
+import iziToast from 'izitoast';
+
 import 'izitoast/dist/css/iziToast.min.css';
 
 const inputElement = document.querySelector('input[name="delay"]');
@@ -25,9 +27,21 @@ function whenSubmitted(event) {
   if (radioFull.checked) {
     setTimeout(() => {
       console.log(`Promise fulfilled after ${delay}ms`);
+      iziToast.show({
+        title: 'Alert',
+        message: `Promise fulfilled after ${delay}ms`,
+        position: 'topRight',
+        timeout: `${delay}`,
+      });
     }, delay);
   } else {
     setTimeout(() => {
+      iziToast.show({
+        title: 'Alert',
+        message: `Promise rejected after ${delay}ms`,
+        position: 'topRight',
+        timeout: `${delay}`,
+      });
       console.log(`Rejected after ${delay}ms`);
     }, delay);
   }
