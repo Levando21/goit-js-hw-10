@@ -35,6 +35,7 @@ function updateCountdown() {
       position: 'topRight',
       timeout: 3000,
     });
+
     return;
   }
 
