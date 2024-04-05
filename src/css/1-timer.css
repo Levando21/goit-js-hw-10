@@ -116,3 +116,18 @@
   width: 300px;
   border-radius: 50px;
 }
+
+.iziToast-title {
+  color: #747bff; /* Change title text color */
+  background-color: none; /* Change title background color */
+}
+
+.iziToast-message {
+  color: #747bff;
+  background-color: none;
+}
+
+.iziToast-buttons button {
+  color: #ffffff;
+  background-color: #41d1ff;
+}

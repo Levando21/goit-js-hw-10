@@ -1,5 +1,7 @@
-import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import flatpickr from 'flatpickr';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const myInp = document.getElementById('datetime-picker');
 myInp.classList.add('time-changer');
@@ -8,54 +10,56 @@ myInp.style.height = '20px';
 myInp.style.borderRadius = '5px';
 
 const strBtn = document.querySelector('button[data-start]');
-console.log(strBtn);
-
-let intervalid = 0;
+const countdownDisplay = document.querySelector('.timer');
+let intervalId = 0;
+let countdownEndTime = 0; // Змінна для збереження кінцевого часу для таймера
 
 strBtn.addEventListener('click', () => {
-  if (!intervalid) {
+  if (!intervalId) {
     strBtn.disabled = true;
-    intervalid = setInterval(() => {
-      console.log(`interval , ${intervalid}`);
-    }, 1000);
+    intervalId = setInterval(updateCountdown, 1000);
+    countdownDisplay.classList.add('value');
   }
 });
 
-myInp.addEventListener('click', () => {
-  const calendarContainer = document.getElementById('calendar-container');
-  const options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-      console.log(selectedDates[0]);
-    },
-    appendTo: calendarContainer,
-  };
+function updateCountdown() {
+  const currentTime = new Date().getTime();
+  const timeLeft = countdownEndTime - currentTime;
 
-  flatpickr(myInp, options);
-});
+  if (timeLeft <= 0) {
+    clearInterval(intervalId);
+    countdownDisplay.textContent = 'Час вийшов!';
+    iziToast.show({
+      title: 'Alert',
+      message: `This date was in the past. Choose another one`,
+      position: 'topRight',
+      timeout: 3000,
+    });
+    return;
+  }
 
-function convertMs(ms) {
-  // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-  // Remaining days
-  const days = Math.floor(ms / day);
-  // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
-  return { days, hours, minutes, seconds };
+  countdownDisplay.textContent = ` ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6, minutes: 42, seconds: 20}
+myInp.addEventListener('change', () => {
+  const selectedDate = myInp.value;
+  countdownEndTime = new Date(selectedDate).getTime();
+});
+
+flatpickr(myInp, {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    countdownEndTime = selectedDates[0].getTime();
+    updateCountdown();
+  },
+});
