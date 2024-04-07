@@ -25,6 +25,7 @@ strBtn.addEventListener('click', () => {
 function updateCountdown() {
   const currentTime = new Date().getTime();
   const timeLeft = countdownEndTime - currentTime;
+  strBtn.disabled = false;
 
   if (timeLeft <= 0) {
     clearInterval(intervalId);
@@ -35,7 +36,7 @@ function updateCountdown() {
       position: 'topRight',
       timeout: 3000,
     });
-
+    strBtn.disabled = true;
     return;
   }
 
