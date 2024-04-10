@@ -35,7 +35,7 @@ btn.addEventListener('click', event => {
     .then(message => {
       iziToast.show({
         title: 'Alert',
-        message: message, // Display the resolved message
+        message: message,
         position: 'topRight',
         timeout: delayValue,
       });
@@ -43,7 +43,7 @@ btn.addEventListener('click', event => {
     .catch(error => {
       iziToast.error({
         title: 'Alert',
-        message: error, // Display the rejected message
+        message: error,
         position: 'topRight',
         timeout: delayValue,
       });
