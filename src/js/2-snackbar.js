@@ -3,7 +3,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 const inputElement = document.querySelector('input[name="delay"]');
-const radioFull = document.querySelector(
+let radioFull = document.querySelector(
   'input[type="radio"][name="state"][value="fulfilled"]'
 );
 const radioRej = document.querySelector(
@@ -17,48 +17,35 @@ radioFull.addEventListener('change', () => {
 radioRej.addEventListener('change', () => {
   console.log('no');
 });
-btn.addEventListener('click', whenSubmitted);
 
-function delay(ms) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
-}
+const delayValue = inputElement.value;
+radioFull.checked = true;
 
-function whenSubmitted(event) {
+btn.addEventListener('click', event => {
   event.preventDefault();
-
-  const delayValue = inputElement.value;
-
-  if (radioFull.checked) {
-    delay(delayValue)
-      .then(() => {
-        console.log(`Promise fulfilled after ${delayValue}ms`);
-        iziToast.show({
-          title: 'Alert',
-          message: `Promise fulfilled after ${delayValue}ms`,
-          position: 'topRight',
-          timeout: `${delayValue}`,
-        });
-      })
-      .catch(error => {
-        console.error('Error:', error);
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (radioFull.checked) {
+        resolve(`Promise fulfilled after ${delayValue} ms`);
+      } else {
+        reject(`Promise rejected after ${delayValue}ms`);
+      }
+    }, delayValue);
+  })
+    .then(message => {
+      iziToast.show({
+        title: 'Alert',
+        message: message, // Display the resolved message
+        position: 'topRight',
+        timeout: delayValue,
       });
-  } else {
-    delay(delayValue)
-      .then(() => {
-        console.log(`Promise rejected after ${delayValue}ms`);
-        iziToast.show({
-          title: 'Alert',
-          message: `Promise rejected after ${delayValue}ms`,
-          position: 'topRight',
-          timeout: `${delayValue}`,
-        });
-      })
-      .catch(error => {
-        console.error('Error:', error);
+    })
+    .catch(error => {
+      iziToast.error({
+        title: 'Alert',
+        message: error, // Display the rejected message
+        position: 'topRight',
+        timeout: delayValue,
       });
-  }
-}
+    });
+});

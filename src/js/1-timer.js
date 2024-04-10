@@ -11,24 +11,32 @@ myInp.style.borderRadius = '5px';
 
 const strBtn = document.querySelector('button[data-start]');
 const countdownDisplay = document.querySelector('.timer');
+
 let intervalId = 0;
 let countdownEndTime = 0; // Змінна для збереження кінцевого часу для таймера
+strBtn.disabled = true;
 
 strBtn.addEventListener('click', () => {
   if (!intervalId) {
-    strBtn.disabled = true;
     intervalId = setInterval(updateCountdown, 1000);
     countdownDisplay.classList.add('value');
+    countdownDisplay.classList.add('field');
+    countdownDisplay.classList.add('label');
   }
+  return;
 });
 
 function updateCountdown() {
   const currentTime = new Date().getTime();
   const timeLeft = countdownEndTime - currentTime;
+  countdownDisplay.classList.add('value');
+  countdownDisplay.classList.add('field');
+  countdownDisplay.classList.add('label');
   strBtn.disabled = false;
 
   if (timeLeft <= 0) {
     clearInterval(intervalId);
+    intervalId = 0;
     countdownDisplay.textContent = 'Час вийшов!';
     iziToast.show({
       title: 'Alert',
