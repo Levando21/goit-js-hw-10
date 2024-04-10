@@ -19,30 +19,46 @@ radioRej.addEventListener('change', () => {
 });
 btn.addEventListener('click', whenSubmitted);
 
+function delay(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
+
 function whenSubmitted(event) {
   event.preventDefault();
 
-  const delay = inputElement.value;
+  const delayValue = inputElement.value;
 
   if (radioFull.checked) {
-    setTimeout(() => {
-      console.log(`Promise fulfilled after ${delay}ms`);
-      iziToast.show({
-        title: 'Alert',
-        message: `Promise fulfilled after ${delay}ms`,
-        position: 'topRight',
-        timeout: `${delay}`,
+    delay(delayValue)
+      .then(() => {
+        console.log(`Promise fulfilled after ${delayValue}ms`);
+        iziToast.show({
+          title: 'Alert',
+          message: `Promise fulfilled after ${delayValue}ms`,
+          position: 'topRight',
+          timeout: `${delayValue}`,
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
       });
-    }, delay);
   } else {
-    setTimeout(() => {
-      iziToast.show({
-        title: 'Alert',
-        message: `Promise rejected after ${delay}ms`,
-        position: 'topRight',
-        timeout: `${delay}`,
+    delay(delayValue)
+      .then(() => {
+        console.log(`Promise rejected after ${delayValue}ms`);
+        iziToast.show({
+          title: 'Alert',
+          message: `Promise rejected after ${delayValue}ms`,
+          position: 'topRight',
+          timeout: `${delayValue}`,
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
       });
-      console.log(`Rejected after ${delay}ms`);
-    }, delay);
   }
 }
