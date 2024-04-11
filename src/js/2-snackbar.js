@@ -11,18 +11,12 @@ const radioRej = document.querySelector(
 );
 const btn = document.querySelector('button[type="submit"]');
 
-radioFull.addEventListener('change', () => {
-  console.log('checked');
-});
-radioRej.addEventListener('change', () => {
-  console.log('no');
-});
-
-const delayValue = inputElement.value;
 radioFull.checked = true;
 
 btn.addEventListener('click', event => {
   event.preventDefault();
+
+  const delayValue = inputElement.value;
   new Promise((resolve, reject) => {
     setTimeout(() => {
       if (radioFull.checked) {
